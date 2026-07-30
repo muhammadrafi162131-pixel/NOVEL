@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grimoire - Novel to Comic Generator</title>
+  <title>Novel to Comic Studio - Lautan Bintang di Atas Dongshan</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,8 +110,8 @@
       padding: 20px;
       color: var(--text-main);
       font-family: var(--font-body);
-      font-size: 1.05rem;
-      line-height: 1.8;
+      font-size: 0.95rem;
+      line-height: 1.7;
       resize: none;
       outline: none;
     }
@@ -142,7 +142,7 @@
       background-color: #1a1a1a;
       border: 3px solid #000;
       border-radius: 4px;
-      height: 320px;
+      min-height: 320px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -151,7 +151,7 @@
       justify-content: space-between;
     }
 
-    /* STYLING GAMBAR PANEL BARU */
+    /* STYLING GAMBAR PANEL */
     .panel-image {
       position: absolute;
       top: 0;
@@ -172,9 +172,11 @@
       z-index: 0;
     }
 
-    .bg-panel-1 { background: linear-gradient(45deg, #2b1055, #7597de); }
-    .bg-panel-2 { background: linear-gradient(135deg, #4a1212, #e056fd); }
+    .bg-panel-1 { background: linear-gradient(45deg, #1e053a, #4a1c6d); }
+    .bg-panel-2 { background: linear-gradient(135deg, #4a1212, #8b0000); }
     .bg-panel-3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+    .bg-panel-4 { background: linear-gradient(135deg, #2c3e50, #fd79a8); }
+    .bg-panel-5 { background: linear-gradient(45deg, #111, #444); }
 
     /* Box Keterangan / Narasi (Caption Box) */
     .comic-caption {
@@ -202,10 +204,10 @@
       border-radius: 12px;
       padding: 8px 12px;
       font-family: var(--comic-font);
-      font-size: 1rem;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
       margin: 8px;
-      max-width: 80%;
+      max-width: 85%;
       align-self: flex-end;
       box-shadow: 2px 2px 0px #000;
     }
@@ -267,68 +269,66 @@
   <!-- WORKSPACE MAIN -->
   <div class="workspace">
     
-    <!-- SISI KIRI: INPUT NOVEL -->
+    <!-- SISI KIRI: INPUT NOVEL FULL -->
     <section class="editor-section">
       <div class="section-title">✍️ Naskah Novel (Teks Original)</div>
-      <textarea id="novelText" class="novel-input" placeholder="Tulis atau tempel naskah novel fantasimu di sini...">Malam semakin larut di Hutan Hitam. Hujan deras mengguyur pepohonan tua yang menjulang tinggi.
+      <textarea id="novelText" class="novel-input" placeholder="Tulis atau tempel naskah novel fantasimu di sini...">LAUTAN BINTANG DI ATAS DONGSHAN
 
-Valerius memegang erat hulu pedangnya. "Aku merasakan keberadaan sihir gelap di sekitar sini," bisiknya pada dirinya sendiri.
+Angin gunung menderu kasar, menerbangkan helai-helai rambut hitam seorang pemuda yang duduk terpaku di tepi tebing curam. Namanya Lin Feng. Tepatnya, nama barunya.
 
-Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor serigala bayangan melompat dengan raungan keras!</textarea>
+Lima menit yang lalu, dia masih seorang editor komik di Beijing yang sedang memegangi cangkir kopi ketiganya pada pukul tiga pagi, mengumpat pada tenggat waktu bab terbaru sebuah manhua kultivasi. Detik berikutnya, penglihatannya gelap, dadanya sesak, dan ketika dia membuka mata... dunia telah berubah menjadi hamparan pegunungan hijau yang melayang di atas awan.
+
+Lin Feng menatap jubah abu-abunya yang compang-camping dan telapak tangannya yang kasar. "Aku... mati karena lembur? Dan sekarang aku bertransmigrasi?"
+
+Ding!
+[Sistem Drama Manhua Kuno telah berhasil terikat dengan jiwa Anda!]
+[Misi Utama Episode 1: "Tuan Muda Sombong Menghina Protagonis Miskin". Target: Wang Ba. Hadiah: Ranah Pengumpulan Qi Tingkat 1. Hukuman Gagal: Efek 'Rambut Rontok Permanen'.]
+
+Lin Feng ternganga. "Sistem bajingan! Kenapa aku malah harus mengemis untuk dihina?!"
+
+Dengan langkah seribu, Lin Feng berlari menuju Pasar Sekte Luar. Di depan toko obat spiritual, berdiri Wang Ba dengan jubah hijau mewah memamerkan Buah Roh Merah.
+
+Sekarang atau botak!
+Lin Feng sengaja mempercepat langkahnya, dan—BRAK! Dia menabrak Wang Ba hingga Buah Roh Merah jatuh ke kubangan lumpur.
+
+"BAJINGAN!" raung Wang Ba. "Matamu ditaruh di mana, Pemuda Miskin?! Mengemis sepuluh turunan pun kamu tidak akan bisa menggantinya!"
+
+Lin Feng tersenyum sangat lebar menikmati sensasi naik level. Reaksi ini membuat Wang Ba paranoid. "C-Cih! Hari ini suasana hatiku sedang buruk! Ayo pergi!" teriak Wang Ba lalu kabur.
+
+Keesokan paginya, Lin Feng dipanggil ke Aula Penegakan Disiplin. Tetua Mo menatapnya tajam. "Kudengar kamu menyembunyikan basis kultivasimu. Siapa yang mengirimmu?"
+
+Lin Feng langsung menahan napas, menggigit pipinya, dan... SPROOOTTT! Dia menyemburkan darah segar ke lantai batu. "Tetua Mo... murid ini memiliki penyakit bawaan... Saya tidak menyangka Tetua juga akan mencurigai murid yang sekarat ini..."
+
+Tetua Mo panik dan merasa bersalah. "Maafkan orang tua ini, Lin Feng! Ini Pil Pemulih Darah, bawalah pulang."
+
+Di pondoknya, tunangannya Liu Ruoxian datang. Lin Feng langsung memasang pose dramatis. "Aku yang menceraikanmu! Ingat kalimat ini: Tiga puluh tahun di Sungai Timur, tiga puluh tahun di Sungai Barat, jangan pernah meremehkan pemuda yang miskin!"
+
+Namun Liu Ruoxian justru menangis terharu. "Lin Feng... tulang punggungmu begitu tegak... Aku bersumpah akan melindungimu!"
+
+Di Kompetisi Sekte Luar, Lin Feng tampil dengan kain hitam berlubang di wajahnya sebagai "Pendekar Kain Hitam". Saat Lu Chen menyerang, Lin Feng menangkap pedangnya dengan dua jari hingga PATAH!
+
+"Jurus... Menangkap Pedang dengan Dua Jari?!" seru Tetua Mo ternganga.
+
+Tepat saat babak final dimulai, langit berubah menjadi merah darah. Awan gelap menggulung dan tawa iblis bergema. Aliansi Iblis telah menyerang sekte!</textarea>
     </section>
 
-    <!-- SISI KANAN: OUTPUT KOMIK -->
+    <!-- SISI KANAN: OUTPUT KOMIK AUTOMATIS -->
     <section class="comic-section">
       <div class="section-title">🎨 Hasil Adaptasi Komik</div>
-      
       <div class="comic-grid" id="comicContainer">
-        
-        <!-- Panel 1 -->
-        <div class="comic-panel">
-          <div class="bg-fallback bg-panel-1"></div>
-          <!-- Tag Gambar (Akan mengambil file dari folder img/panel1.png jika ada) -->
-          <img src="img/panel1.png" alt="Panel 1" class="panel-image" id="img-panel-1" onerror="this.style.display='none'">
-          
-          <div class="comic-caption">Hutan Hitam. Hujan deras mengguyur pepohonan tua...</div>
-          <span class="panel-number">PANEL 1</span>
-          
-          <button class="upload-btn" onclick="document.getElementById('file-1').click()">📷 Ganti Gambar</button>
-          <input type="file" id="file-1" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-1')">
-        </div>
-
-        <!-- Panel 2 -->
-        <div class="comic-panel">
-          <div class="bg-fallback bg-panel-3"></div>
-          <img src="img/panel2.png" alt="Panel 2" class="panel-image" id="img-panel-2" onerror="this.style.display='none'">
-          
-          <div class="speech-bubble">"Aku merasakan keberadaan sihir gelap di sekitar sini..."</div>
-          <span class="panel-number">PANEL 2</span>
-          
-          <button class="upload-btn" onclick="document.getElementById('file-2').click()">📷 Ganti Gambar</button>
-          <input type="file" id="file-2" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-2')">
-        </div>
-
-        <!-- Panel 3 -->
-        <div class="comic-panel" style="grid-column: span 2;">
-          <div class="bg-fallback bg-panel-2"></div>
-          <img src="img/panel3.png" alt="Panel 3" class="panel-image" id="img-panel-3" onerror="this.style.display='none'">
-          
-          <div class="comic-caption">Tiba-tiba, mata merah menyala muncul dari balik kegelapan!</div>
-          <div class="speech-bubble" style="font-size: 1.3rem; color: red;">"GRRRRRRRR...!"</div>
-          <span class="panel-number">PANEL 3</span>
-          
-          <button class="upload-btn" onclick="document.getElementById('file-3').click()">📷 Ganti Gambar</button>
-          <input type="file" id="file-3" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-3')">
-        </div>
-
+        <!-- Panel komik akan di-generate otomatis oleh Script -->
       </div>
     </section>
 
   </div>
 
-  <!-- JAVASCRIPT KONVERSI & UPLOAD GAMBAR -->
+  <!-- JAVASCRIPT KONVERSI NOVEL KE KOMIK -->
   <script>
-    // Fungsi untuk memperbarui panel sesuai naskah teks
+    // Jalankan otomatis saat halaman pertama kali dimuat
+    window.onload = function() {
+      generateComic();
+    };
+
     function generateComic() {
       const text = document.getElementById('novelText').value;
       const container = document.getElementById('comicContainer');
@@ -338,30 +338,40 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
         return;
       }
 
-      const paragraphs = text.split('\n').filter(p => p.trim() !== '');
+      // Memecah naskah paragraf demi paragraf
+      const rawParagraphs = text.split('\n').filter(p => p.trim() !== '');
       container.innerHTML = ''; // Clear panel lama
 
-      const bgClasses = ['bg-panel-1', 'bg-panel-2', 'bg-panel-3'];
+      const bgClasses = ['bg-panel-1', 'bg-panel-2', 'bg-panel-3', 'bg-panel-4', 'bg-panel-5'];
 
-      paragraphs.forEach((para, index) => {
-        const isDialogue = para.includes('"');
+      rawParagraphs.forEach((para, index) => {
+        const isDialogue = para.includes('"') || para.includes('[') || para.startsWith('Ding!');
         const bgClass = bgClasses[index % bgClasses.length];
         const panelId = `img-panel-${index + 1}`;
         const fileId = `file-${index + 1}`;
+        const panelNumber = index + 1;
+
+        // Tentukan gambar default berdasarkan panel (mengacu pada folder img/panelX.png)
+        const defaultImgSrc = `img/panel${panelNumber}.png`;
 
         const panel = document.createElement('div');
         panel.className = 'comic-panel';
         
-        // Buat susunan layout komik dengan elemen <img>
+        // Memperluas panel khusus adegan penting/climax (contoh: adegan berteriak / final)
+        if (para.includes("SPROOOTTT") || para.includes("Aliansi Iblis") || para.includes("BAJINGAN")) {
+          panel.style.gridColumn = "span 2";
+        }
+
+        // Template Struktur Panel Komik
         panel.innerHTML = `
           <div class="bg-fallback ${bgClass}"></div>
-          <img src="img/panel${index + 1}.png" alt="Panel ${index + 1}" class="panel-image" id="${panelId}" onerror="this.style.display='none'">
+          <img src="${defaultImgSrc}" alt="Panel ${panelNumber}" class="panel-image" id="${panelId}" onerror="this.style.display='none'">
           
           ${isDialogue 
-            ? `<div class="speech-bubble">${para}</div>` 
-            : `<div class="comic-caption">${para}</div>`}
+            ? `<div class="speech-bubble">${escapeHtml(para)}</div>` 
+            : `<div class="comic-caption">${escapeHtml(para)}</div>`}
           
-          <span class="panel-number">PANEL ${index + 1}</span>
+          <span class="panel-number">PANEL ${panelNumber}</span>
           
           <button class="upload-btn" onclick="document.getElementById('${fileId}').click()">📷 Ganti Gambar</button>
           <input type="file" id="${fileId}" accept="image/*" style="display:none" onchange="previewImage(event, '${panelId}')">
@@ -371,7 +381,17 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
       });
     }
 
-    // Fungsi JS untuk langsung menampilkan gambar yang di-upload dari komputer
+    // Helper untuk menghindari error HTML Injection pada karakter khusus
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Fungsi JS untuk preview gambar yang di-upload dari komputer
     function previewImage(event, imgElementId) {
       const imgElement = document.getElementById(imgElementId);
       const file = event.target.files[0];

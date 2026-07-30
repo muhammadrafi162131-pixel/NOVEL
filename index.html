@@ -133,11 +133,11 @@
       color: var(--accent-gold);
     }
 
-    /* --- MODAL LOGIN POPUP --- */
+    /* --- MODAL LOGIN & PILIH AKUN --- */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       display: none;
       justify-content: center;
@@ -151,10 +151,10 @@
     .modal-card {
       background: rgba(24, 24, 32, 0.95);
       border: 1px solid var(--border-color);
-      padding: 40px;
+      padding: 35px;
       border-radius: 20px;
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
       box-shadow: var(--shadow-lg);
       text-align: center;
       position: relative;
@@ -172,8 +172,8 @@
     .modal-title {
       font-family: 'Cinzel', serif;
       color: var(--accent-gold);
-      font-size: 1.6rem;
-      margin-bottom: 8px;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
     }
 
     .modal-subtitle {
@@ -183,6 +183,7 @@
       margin-bottom: 25px;
     }
 
+    /* Opsi Tombol Provider */
     .btn-social {
       width: 100%;
       padding: 12px;
@@ -211,6 +212,75 @@
     .btn-google svg { width: 20px; height: 20px; }
     .btn-facebook { background: #1877f2; color: #fff; border: none; }
     .btn-facebook:hover { background: #166fe5; }
+
+    /* Kartu Daftar Akun (Select Account List) */
+    .account-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .account-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .account-item:hover {
+      background: rgba(251, 191, 36, 0.08);
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    .account-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: bold;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .account-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .account-email {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .btn-back-provider {
+      background: none;
+      border: none;
+      color: var(--accent-gold);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: underline;
+    }
 
     /* --- MAIN CONTENT AREA --- */
     main {
@@ -382,7 +452,7 @@
       color: var(--text-secondary);
     }
 
-    /* --- RATING BINTANG (POJOK KIRI BAWAH) --- */
+    /* --- RATING BINTANG --- */
     .rating-container {
       position: fixed;
       bottom: 25px; left: 25px;
@@ -435,24 +505,39 @@
     </div>
   </header>
 
-  <!-- MODAL LOGIN (POPUP GOOGLE & FACEBOOK) -->
+  <!-- MODAL 1: PILIH PROVIDER (GOOGLE / FACEBOOK) -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <button class="close-modal" onclick="closeLoginModal()">&times;</button>
       <h3 class="modal-title">Selamat Datang</h3>
-      <p class="modal-subtitle">Pilih akun untuk masuk ke Xianxia Realm</p>
+      <p class="modal-subtitle">Pilih layanan untuk masuk ke Xianxia Realm</p>
       
       <!-- Button Google -->
-      <button class="btn-social btn-google" onclick="simulateLogin('Google')">
+      <button class="btn-social btn-google" onclick="showAccountSelection('Google')">
         <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
         Lanjutkan dengan Google
       </button>
 
       <!-- Button Facebook -->
-      <button class="btn-social btn-facebook" onclick="simulateLogin('Facebook')">
+      <button class="btn-social btn-facebook" onclick="showAccountSelection('Facebook')">
         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         Lanjutkan dengan Facebook
       </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: PILIH AKUN USER (DAFTAR AKUN YANG TERSEDIA) -->
+  <div class="modal-overlay" id="accountModal">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeAccountModal()">&times;</button>
+      <h3 class="modal-title" id="accountModalTitle">Pilih Akun Google</h3>
+      <p class="modal-subtitle">Pilih salah satu akun untuk melanjutkan</p>
+
+      <div class="account-list" id="accountListContainer">
+        <!-- Pilihan Akun akan dimasukkan oleh JS -->
+      </div>
+
+      <button class="btn-back-provider" onclick="backToProviderModal()">← Pilih metode lain</button>
     </div>
   </div>
 
@@ -463,7 +548,7 @@
       <div style="text-align: center; padding: 40px 0;">
         <h2 style="font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 2.2rem; margin-bottom: 15px;">Dunia Cerita Tanpa Batas</h2>
         <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto; font-family: 'Plus Jakarta Sans', sans-serif;">
-          Masuk dengan akunmu untuk menulis novel karya ilmiah/fantasi milikmu sendiri atau membaca kisah luar biasa dari para kreator lainnya.
+          Masuk dengan akunmu untuk menulis novel milikmu sendiri atau membaca kisah luar biasa dari para kreator lainnya.
         </p>
       </div>
     </div>
@@ -524,7 +609,21 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    let userAccount = null; // Menyimpan status user yang login
+    let userAccount = null; 
+
+    // Simulasi Akun Tersimpan
+    const dummyAccounts = {
+      Google: [
+        { name: "Lin Feng", email: "linfeng.editor@gmail.com", avatar: "L" },
+        { name: "Budi Santoso", email: "budi.santoso@gmail.com", avatar: "B" },
+        { name: "Ayu Lestari", email: "ayu.lestari@gmail.com", avatar: "A" }
+      ],
+      Facebook: [
+        { name: "Lin Feng Official", email: "linfeng.fb@facebook.com", avatar: "L" },
+        { name: "Rian Hidayat", email: "rian.hidayat@facebook.com", avatar: "R" }
+      ]
+    };
+
     let novels = JSON.parse(localStorage.getItem('userNovels')) || [
       {
         title: "Lautan Bintang di Atas Dongshan",
@@ -537,7 +636,7 @@
     let currentPageIndex = 0;
     const WORDS_PER_PAGE = 80;
 
-    // Control Auth & Modal
+    // Control Auth Button
     function handleAuthClick() {
       if (!userAccount) {
         document.getElementById('loginModal').classList.add('show');
@@ -550,14 +649,52 @@
       document.getElementById('loginModal').classList.remove('show');
     }
 
-    function simulateLogin(provider) {
-      userAccount = { name: "Pengguna " + provider, provider: provider };
+    function closeAccountModal() {
+      document.getElementById('accountModal').classList.remove('show');
+    }
+
+    function backToProviderModal() {
+      closeAccountModal();
+      document.getElementById('loginModal').classList.add('show');
+    }
+
+    // Tampilkan Daftar Akun untuk Dipilih User
+    function showAccountSelection(provider) {
       closeLoginModal();
-      
+      const accountModal = document.getElementById('accountModal');
+      const container = document.getElementById('accountListContainer');
+      const title = document.getElementById('accountModalTitle');
+
+      title.innerText = `Pilih Akun ${provider}`;
+      container.innerHTML = '';
+
+      const accounts = dummyAccounts[provider];
+      accounts.forEach(acc => {
+        const item = document.createElement('div');
+        item.className = 'account-item';
+        item.innerHTML = `
+          <div class="account-avatar">${acc.avatar}</div>
+          <div class="account-info">
+            <span class="account-name">${acc.name}</span>
+            <span class="account-email">${acc.email}</span>
+          </div>
+        `;
+        item.onclick = () => selectAccount(acc, provider);
+        container.appendChild(item);
+      });
+
+      accountModal.classList.add('show');
+    }
+
+    // Pilih Akun & Berhasil Login
+    function selectAccount(account, provider) {
+      userAccount = { ...account, provider };
+      closeAccountModal();
+
       const authBtn = document.getElementById('authBtn');
-      authBtn.innerText = "Menu User ▼";
+      authBtn.innerText = `👤 ${account.name} ▼`;
       
-      alert(`Berhasil masuk menggunakan akun ${provider}! Klik tombol 'Menu User' untuk memilih Create atau Read.`);
+      alert(`Berhasil masuk sebagai ${account.name} (${provider})! Pilihan Create dan Read sudah terbuka di menu user.`);
       document.getElementById('dropdownMenu').classList.add('show');
     }
 

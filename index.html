@@ -1,410 +1,289 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Novel to Comic Studio - Lautan Bintang di Atas Dongshan</title>
+  <title>Lautan Bintang di Atas Dongshan - Platform Novel</title>
   
+  <!-- Font Khusus untuk Kebutuhan Membaca Nyaman -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
-    :root {
-      --bg-dark: #121016;
-      --bg-panel: #1b1722;
-      --border-color: #3d334a;
-      --gold-primary: #d4af37;
-      --gold-light: #f3e5ab;
-      --text-main: #e2d9cb;
-      --text-muted: #9e92a8;
-      --comic-font: 'Bangers', cursive;
-      --font-title: 'Cinzel', serif;
-      --font-body: 'Lora', serif;
+    /* --- CSS VARIABLES FOR THEMES --- */
+    :root[data-theme="dark"] {
+      --bg-body: #121214;
+      --bg-card: #1a1a1e;
+      --bg-header: #18181c;
+      --text-primary: #e4e4e7;
+      --text-secondary: #a1a1aa;
+      --accent-gold: #d4af37;
+      --border-color: #27272a;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    :root[data-theme="light"] {
+      --bg-body: #f4f4f5;
+      --bg-card: #ffffff;
+      --bg-header: #ffffff;
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --accent-gold: #b58d11;
+      --border-color: #e4e4e7;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      height: 100vh;
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+      font-family: 'Lora', serif;
+      line-height: 1.9;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      min-height: 100vh;
     }
 
-    /* --- HEADER --- */
+    /* --- HEADER & NAVIGATION --- */
     header {
-      background-color: var(--bg-panel);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-header);
       border-bottom: 1px solid var(--border-color);
-      padding: 15px 30px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: var(--shadow);
     }
 
     .brand {
-      font-family: var(--font-title);
-      font-size: 1.4rem;
-      color: var(--gold-primary);
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-gold);
       letter-spacing: 1px;
     }
 
-    .btn-convert {
-      background: linear-gradient(135deg, #8a2be2, #d4af37);
-      border: none;
-      color: #fff;
-      font-family: var(--font-title);
-      font-size: 1rem;
-      font-weight: bold;
-      padding: 10px 24px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-convert:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    }
-
-    /* --- LAYOUT UTAMA (SPLIT SCREEN) --- */
-    .workspace {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 65px);
-    }
-
-    /* Sisi Kiri: Text Editor Novel */
-    .editor-section {
-      width: 45%;
-      border-right: 1px solid var(--border-color);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      background-color: var(--bg-dark);
-    }
-
-    .section-title {
-      font-family: var(--font-title);
-      color: var(--gold-light);
-      font-size: 1.1rem;
+    .controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .novel-input {
-      flex: 1;
-      width: 100%;
-      background-color: var(--bg-panel);
+    .btn-control {
+      background-color: var(--bg-card);
       border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
       border-radius: 6px;
-      padding: 20px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      resize: none;
-      outline: none;
-    }
-
-    .novel-input:focus {
-      border-color: var(--gold-primary);
-    }
-
-    /* Sisi Kanan: Comic Canvas */
-    .comic-section {
-      width: 55%;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: #0b0a0e;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .comic-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    /* Style Panel Komik */
-    .comic-panel {
-      background-color: #1a1a1a;
-      border: 3px solid #000;
-      border-radius: 4px;
-      min-height: 320px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* STYLING GAMBAR PANEL */
-    .panel-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    /* Fallback Warna Gradient jika gambar lokal belum dimuat */
-    .bg-fallback {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-
-    .bg-panel-1 { background: linear-gradient(45deg, #1e053a, #4a1c6d); }
-    .bg-panel-2 { background: linear-gradient(135deg, #4a1212, #8b0000); }
-    .bg-panel-3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
-    .bg-panel-4 { background: linear-gradient(135deg, #2c3e50, #fd79a8); }
-    .bg-panel-5 { background: linear-gradient(45deg, #111, #444); }
-
-    /* Box Keterangan / Narasi (Caption Box) */
-    .comic-caption {
-      position: relative;
-      z-index: 2;
-      background-color: #fffbcf;
-      color: #000;
-      border: 2px solid #000;
-      padding: 6px 10px;
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
-      font-size: 0.8rem;
-      margin: 8px;
-      max-width: 85%;
-      box-shadow: 2px 2px 0px #000;
-    }
-
-    /* Balon Kata (Speech Bubble) */
-    .speech-bubble {
-      position: relative;
-      z-index: 2;
-      background: #fff;
-      color: #000;
-      border: 2px solid #000;
-      border-radius: 12px;
-      padding: 8px 12px;
-      font-family: var(--comic-font);
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      margin: 8px;
-      max-width: 85%;
-      align-self: flex-end;
-      box-shadow: 2px 2px 0px #000;
-    }
-
-    .speech-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      right: 15px;
-      border-width: 8px 8px 0;
-      border-style: solid;
-      border-color: #fff transparent;
-      display: block;
-      width: 0;
-    }
-
-    .panel-number {
-      position: absolute;
-      bottom: 5px;
-      left: 5px;
-      z-index: 3;
-      background: #000;
-      color: #fff;
-      font-family: var(--comic-font);
-      font-size: 0.8rem;
-      padding: 2px 6px;
-    }
-
-    /* Tombol Unggah Gambar Interaktif */
-    .upload-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      z-index: 4;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      border: 1px solid var(--gold-primary);
-      border-radius: 3px;
-      padding: 2px 6px;
-      font-size: 0.7rem;
       cursor: pointer;
-      transition: background 0.2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
     }
 
-    .upload-btn:hover {
-      background: var(--gold-primary);
+    .btn-control:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* --- MAIN CONTENT CONTAINER --- */
+    main {
+      flex: 1;
+      max-width: 800px;
+      width: 90%;
+      margin: 40px auto;
+      background-color: var(--bg-card);
+      padding: 40px 50px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 25px 20px;
+        width: 95%;
+        margin: 20px auto;
+      }
+    }
+
+    /* --- NOVEL HEADER --- */
+    .novel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .novel-meta {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    /* --- READ AREA --- */
+    .novel-content p {
+      margin-bottom: 22px;
+      font-size: 1.1rem; /* Default Font Size */
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .novel-content p::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: var(--accent-gold);
+    }
+
+    /* --- FOOTER & NAVIGATION BAB --- */
+    .chapter-nav {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-nav {
+      background-color: var(--accent-gold);
       color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER DENGAN KONTROL PENYESUAIAN BACA -->
   <header>
-    <div class="brand">📖 NOVEL TO COMIC STUDIO</div>
-    <button class="btn-convert" onclick="generateComic()">✨ Konversi ke Komik</button>
+    <div class="brand">📖 XIANXIA REALM</div>
+    <div class="controls">
+      <button class="btn-control" onclick="changeFontSize(-1)">A-</button>
+      <button class="btn-control" onclick="changeFontSize(1)">A+</button>
+      <button class="btn-control" onclick="toggleTheme()">🌓 Tema</button>
+    </div>
   </header>
 
-  <!-- WORKSPACE MAIN -->
-  <div class="workspace">
-    
-    <!-- SISI KIRI: INPUT NOVEL FULL -->
-    <section class="editor-section">
-      <div class="section-title">✍️ Naskah Novel (Teks Original)</div>
-      <textarea id="novelText" class="novel-input" placeholder="Tulis atau tempel naskah novel fantasimu di sini...">LAUTAN BINTANG DI ATAS DONGSHAN
+  <!-- KONTEN BACAAN NOVEL -->
+  <main>
+    <h1 class="novel-title">Lautan Bintang di Atas Dongshan</h1>
+    <div class="novel-meta">Penulis: Lin Feng Editor • Bab 1: Transmigrasi & Sistem Drama</div>
 
-Angin gunung menderu kasar, menerbangkan helai-helai rambut hitam seorang pemuda yang duduk terpaku di tepi tebing curam. Namanya Lin Feng. Tepatnya, nama barunya.
+    <article class="novel-content" id="novelArticle">
+      <p>Angin gunung menderu kasar, menerbangkan helai-helai rambut hitam seorang pemuda yang duduk terpaku di tepi tebing curam. Namanya Lin Feng. Tepatnya, nama barunya.</p>
 
-Lima menit yang lalu, dia masih seorang editor komik di Beijing yang sedang memegangi cangkir kopi ketiganya pada pukul tiga pagi, mengumpat pada tenggat waktu bab terbaru sebuah manhua kultivasi. Detik berikutnya, penglihatannya gelap, dadanya sesak, dan ketika dia membuka mata... dunia telah berubah menjadi hamparan pegunungan hijau yang melayang di atas awan.
+      <p>Lima menit yang lalu, dia masih seorang editor komik di Beijing yang sedang memegangi cangkir kopi ketiganya pada pukul tiga pagi, mengumpat pada tenggat waktu bab terbaru sebuah manhua kultivasi. Detik berikutnya, penglihatannya gelap, dadanya sesak, dan ketika dia membuka mata... dunia telah berubah menjadi hamparan pegunungan hijau yang melayang di atas awan, persis seperti aset background 3D murah yang sering dia edit.</p>
 
-Lin Feng menatap jubah abu-abunya yang compang-camping dan telapak tangannya yang kasar. "Aku... mati karena lembur? Dan sekarang aku bertransmigrasi?"
+      <p>Lin Feng menatap jubah abu-abunya yang compang-camping dan telapak tangannya yang kasar. "Aku... mati karena lembur? Dan sekarang aku bertransmigrasi?"</p>
 
-Ding!
-[Sistem Drama Manhua Kuno telah berhasil terikat dengan jiwa Anda!]
-[Misi Utama Episode 1: "Tuan Muda Sombong Menghina Protagonis Miskin". Target: Wang Ba. Hadiah: Ranah Pengumpulan Qi Tingkat 1. Hukuman Gagal: Efek 'Rambut Rontok Permanen'.]
+      <p>Sebelum dia sempat memproses krisis eksistensial ini, sebuah suara mekanis yang dingin dan tanpa emosi tiba-tiba meledak di dalam kepalanya, membuat telinganya berdenging.</p>
 
-Lin Feng ternganga. "Sistem bajingan! Kenapa aku malah harus mengemis untuk dihina?!"
+      <p><strong>[Ding! Sistem Drama Manhua Kuno telah berhasil terikat dengan jiwa Anda!]</strong><br>
+      [Host terpilih: Lin Feng (Murid Sekte Luar Sekte Pedang Hijau)]<br>
+      [Kondisi Tubuh: Nol Kultivasi, Bakat Sampah, Pemalas, Kurang Gizi.]</p>
 
-Dengan langkah seribu, Lin Feng berlari menuju Pasar Sekte Luar. Di depan toko obat spiritual, berdiri Wang Ba dengan jubah hijau mewah memamerkan Buah Roh Merah.
+      <p>Lin Feng langsung menegakkan tubuhnya. Matanya berbinar. Sebagai pembaca ribuan fiksi transmigrasi, dia tahu apa artinya ini. "Sistem! Puji Tuhan! Cepat berikan aku Cheat! Mana Tubuh Suci Primordial? Mana Api Surgawi? Atau minimal beri aku kultivasi instan ke Ranah Kaisar!"</p>
 
-Sekarang atau botak!
-Lin Feng sengaja mempercepat langkahnya, dan—BRAK! Dia menabrak Wang Ba hingga Buah Roh Merah jatuh ke kubangan lumpur.
+      <p><strong>[Ding! Menjawab Host: Sistem ini tidak menyediakan kekuatan instan secara gratis. Di dunia ini, hukum alam semesta diatur oleh 'Logika Plot'. Untuk menjadi kuat, Host harus memicu 'Efek Klise Manhua' atau menciptakan momen dramatis pada orang lain.]</strong></p>
 
-"BAJINGAN!" raung Wang Ba. "Matamu ditaruh di mana, Pemuda Miskin?! Mengemis sepuluh turunan pun kamu tidak akan bisa menggantinya!"
+      <p>Lin Feng ternganga. Wajahnya langsung pucat. Menjadi botak di dunia kultivasi? Di mana semua karakter utamanya memiliki rambut panjang berkilau yang tertiup angin panggung? Itu sama saja dengan hukuman mati sosial!</p>
 
-Lin Feng tersenyum sangat lebar menikmati sensasi naik level. Reaksi ini membuat Wang Ba paranoid. "C-Cih! Hari ini suasana hatiku sedang buruk! Ayo pergi!" teriak Wang Ba lalu kabur.
+      <p>"Sistem bajingan! Orang lain pamer kekuatan di hari pertama, kenapa aku malah harus mengemis untuk dihina?!" kutuk Lin Feng sambil melompat berdiri.</p>
 
-Keesokan paginya, Lin Feng dipanggil ke Aula Penegakan Disiplin. Tetua Mo menatapnya tajam. "Kudengar kamu menyembunyikan basis kultivasimu. Siapa yang mengirimmu?"
+      <p>Namun, demi menyelamatkan garis rambutnya yang berharga, Lin Feng tidak punya pilihan. Dengan langkah seribu, dia berlari menuruni jalan setapak gunung menuju Pasar Sekte Luar. Pikirannya berputar cepat, menyusun skenario. Sebagai editor manhua berpengalaman, dia tahu persis bagaimana cara memancing kemarahan karakter figuran...</p>
+    </article>
 
-Lin Feng langsung menahan napas, menggigit pipinya, dan... SPROOOTTT! Dia menyemburkan darah segar ke lantai batu. "Tetua Mo... murid ini memiliki penyakit bawaan... Saya tidak menyangka Tetua juga akan mencurigai murid yang sekarat ini..."
+    <!-- NAVIGASI BAB -->
+    <div class="chapter-nav">
+      <button class="btn-nav" disabled>← Bab Sebelumnya</button>
+      <button class="btn-nav" onclick="alert('Bab selanjutnya sedang ditulis!')">Bab Selanjutnya →</button>
+    </div>
+  </main>
 
-Tetua Mo panik dan merasa bersalah. "Maafkan orang tua ini, Lin Feng! Ini Pil Pemulih Darah, bawalah pulang."
+  <footer>
+    &copy; 2026 Xianxia Realm - Baca Novel Online Nyaman & Bebas Iklan.
+  </footer>
 
-Di pondoknya, tunangannya Liu Ruoxian datang. Lin Feng langsung memasang pose dramatis. "Aku yang menceraikanmu! Ingat kalimat ini: Tiga puluh tahun di Sungai Timur, tiga puluh tahun di Sungai Barat, jangan pernah meremehkan pemuda yang miskin!"
-
-Namun Liu Ruoxian justru menangis terharu. "Lin Feng... tulang punggungmu begitu tegak... Aku bersumpah akan melindungimu!"
-
-Di Kompetisi Sekte Luar, Lin Feng tampil dengan kain hitam berlubang di wajahnya sebagai "Pendekar Kain Hitam". Saat Lu Chen menyerang, Lin Feng menangkap pedangnya dengan dua jari hingga PATAH!
-
-"Jurus... Menangkap Pedang dengan Dua Jari?!" seru Tetua Mo ternganga.
-
-Tepat saat babak final dimulai, langit berubah menjadi merah darah. Awan gelap menggulung dan tawa iblis bergema. Aliansi Iblis telah menyerang sekte!</textarea>
-    </section>
-
-    <!-- SISI KANAN: OUTPUT KOMIK AUTOMATIS -->
-    <section class="comic-section">
-      <div class="section-title">🎨 Hasil Adaptasi Komik</div>
-      <div class="comic-grid" id="comicContainer">
-        <!-- Panel komik akan di-generate otomatis oleh Script -->
-      </div>
-    </section>
-
-  </div>
-
-  <!-- JAVASCRIPT KONVERSI NOVEL KE KOMIK -->
+  <!-- SCRIPT INTERAKSI MEMBACA -->
   <script>
-    // Jalankan otomatis saat halaman pertama kali dimuat
-    window.onload = function() {
-      generateComic();
-    };
+    let currentFontSize = 1.1; // Default font size dalam rem
 
-    function generateComic() {
-      const text = document.getElementById('novelText').value;
-      const container = document.getElementById('comicContainer');
-      
-      if (!text.trim()) {
-        alert("Harap masukkan naskah novel terlebih dahulu!");
-        return;
-      }
+    // 1. Fitur Mengubah Ukuran Huruf (Zoom In / Zoom Out Text)
+    function changeFontSize(delta) {
+      currentFontSize += delta * 0.1;
+      if (currentFontSize < 0.9) currentFontSize = 0.9; // Minimal
+      if (currentFontSize > 1.6) currentFontSize = 1.6; // Maksimal
 
-      // Memecah naskah paragraf demi paragraf
-      const rawParagraphs = text.split('\n').filter(p => p.trim() !== '');
-      container.innerHTML = ''; // Clear panel lama
-
-      const bgClasses = ['bg-panel-1', 'bg-panel-2', 'bg-panel-3', 'bg-panel-4', 'bg-panel-5'];
-
-      rawParagraphs.forEach((para, index) => {
-        const isDialogue = para.includes('"') || para.includes('[') || para.startsWith('Ding!');
-        const bgClass = bgClasses[index % bgClasses.length];
-        const panelId = `img-panel-${index + 1}`;
-        const fileId = `file-${index + 1}`;
-        const panelNumber = index + 1;
-
-        // Tentukan gambar default berdasarkan panel (mengacu pada folder img/panelX.png)
-        const defaultImgSrc = `img/panel${panelNumber}.png`;
-
-        const panel = document.createElement('div');
-        panel.className = 'comic-panel';
-        
-        // Memperluas panel khusus adegan penting/climax (contoh: adegan berteriak / final)
-        if (para.includes("SPROOOTTT") || para.includes("Aliansi Iblis") || para.includes("BAJINGAN")) {
-          panel.style.gridColumn = "span 2";
-        }
-
-        // Template Struktur Panel Komik
-        panel.innerHTML = `
-          <div class="bg-fallback ${bgClass}"></div>
-          <img src="${defaultImgSrc}" alt="Panel ${panelNumber}" class="panel-image" id="${panelId}" onerror="this.style.display='none'">
-          
-          ${isDialogue 
-            ? `<div class="speech-bubble">${escapeHtml(para)}</div>` 
-            : `<div class="comic-caption">${escapeHtml(para)}</div>`}
-          
-          <span class="panel-number">PANEL ${panelNumber}</span>
-          
-          <button class="upload-btn" onclick="document.getElementById('${fileId}').click()">📷 Ganti Gambar</button>
-          <input type="file" id="${fileId}" accept="image/*" style="display:none" onchange="previewImage(event, '${panelId}')">
-        `;
-
-        container.appendChild(panel);
+      const paragraphs = document.querySelectorAll('.novel-content p');
+      paragraphs.forEach(p => {
+        p.style.fontSize = `${currentFontSize}rem`;
       });
-    }
-
-    // Helper untuk menghindari error HTML Injection pada karakter khusus
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // Fungsi JS untuk preview gambar yang di-upload dari komputer
-    function previewImage(event, imgElementId) {
-      const imgElement = document.getElementById(imgElementId);
-      const file = event.target.files[0];
       
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          imgElement.src = e.target.result;
-          imgElement.style.display = 'block'; // Tampilkan gambar setelah diunggah
-        }
-        reader.readAsDataURL(file);
-      }
+      // Simpan preferensi pembaca di browser
+      localStorage.setItem('userFontSize', currentFontSize);
     }
+
+    // 2. Fitur Mengubah Tema (Dark Mode / Light Mode)
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('userTheme', newTheme);
+    }
+
+    // 3. Memuat Preferensi Pembaca Saat Halaman Duka
+    window.onload = function() {
+      // Muat tema pilihan pembaca
+      const savedTheme = localStorage.getItem('userTheme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+
+      // Muat ukuran font pilihan pembaca
+      const savedFontSize = localStorage.getItem('userFontSize');
+      if (savedFontSize) {
+        currentFontSize = parseFloat(savedFontSize);
+        changeFontSize(0);
+      }
+    };
   </script>
 </body>
 </html>

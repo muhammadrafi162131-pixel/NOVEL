@@ -151,17 +151,30 @@
       justify-content: space-between;
     }
 
-    .panel-image-placeholder {
+    /* STYLING GAMBAR PANEL BARU */
+    .panel-image {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-size: cover;
-      background-position: center;
-      filter: contrast(1.1) brightness(0.9);
+      object-fit: cover;
       z-index: 1;
     }
+
+    /* Fallback Warna Gradient jika gambar lokal belum dimuat */
+    .bg-fallback {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .bg-panel-1 { background: linear-gradient(45deg, #2b1055, #7597de); }
+    .bg-panel-2 { background: linear-gradient(135deg, #4a1212, #e056fd); }
+    .bg-panel-3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
 
     /* Box Keterangan / Narasi (Caption Box) */
     .comic-caption {
@@ -221,10 +234,26 @@
       padding: 2px 6px;
     }
 
-    /* Style Ilustrasi Simulasi (Warna Fantasi) */
-    .bg-panel-1 { background: linear-gradient(45deg, #2b1055, #7597de); }
-    .bg-panel-2 { background: linear-gradient(135deg, #4a1212, #e056fd); }
-    .bg-panel-3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+    /* Tombol Unggah Gambar Interaktif */
+    .upload-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 4;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: 1px solid var(--gold-primary);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .upload-btn:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
   </style>
 </head>
 <body>
@@ -256,24 +285,40 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
         
         <!-- Panel 1 -->
         <div class="comic-panel">
-          <div class="panel-image-placeholder bg-panel-1"></div>
+          <div class="bg-fallback bg-panel-1"></div>
+          <!-- Tag Gambar (Akan mengambil file dari folder img/panel1.png jika ada) -->
+          <img src="img/panel1.png" alt="Panel 1" class="panel-image" id="img-panel-1" onerror="this.style.display='none'">
+          
           <div class="comic-caption">Hutan Hitam. Hujan deras mengguyur pepohonan tua...</div>
           <span class="panel-number">PANEL 1</span>
+          
+          <button class="upload-btn" onclick="document.getElementById('file-1').click()">📷 Ganti Gambar</button>
+          <input type="file" id="file-1" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-1')">
         </div>
 
         <!-- Panel 2 -->
         <div class="comic-panel">
-          <div class="panel-image-placeholder bg-panel-3"></div>
+          <div class="bg-fallback bg-panel-3"></div>
+          <img src="img/panel2.png" alt="Panel 2" class="panel-image" id="img-panel-2" onerror="this.style.display='none'">
+          
           <div class="speech-bubble">"Aku merasakan keberadaan sihir gelap di sekitar sini..."</div>
           <span class="panel-number">PANEL 2</span>
+          
+          <button class="upload-btn" onclick="document.getElementById('file-2').click()">📷 Ganti Gambar</button>
+          <input type="file" id="file-2" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-2')">
         </div>
 
         <!-- Panel 3 -->
         <div class="comic-panel" style="grid-column: span 2;">
-          <div class="panel-image-placeholder bg-panel-2"></div>
+          <div class="bg-fallback bg-panel-2"></div>
+          <img src="img/panel3.png" alt="Panel 3" class="panel-image" id="img-panel-3" onerror="this.style.display='none'">
+          
           <div class="comic-caption">Tiba-tiba, mata merah menyala muncul dari balik kegelapan!</div>
           <div class="speech-bubble" style="font-size: 1.3rem; color: red;">"GRRRRRRRR...!"</div>
           <span class="panel-number">PANEL 3</span>
+          
+          <button class="upload-btn" onclick="document.getElementById('file-3').click()">📷 Ganti Gambar</button>
+          <input type="file" id="file-3" accept="image/*" style="display:none" onchange="previewImage(event, 'img-panel-3')">
         </div>
 
       </div>
@@ -281,8 +326,9 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
 
   </div>
 
-  <!-- JAVASCRIPT KONVERSI SIMULASI -->
+  <!-- JAVASCRIPT KONVERSI & UPLOAD GAMBAR -->
   <script>
+    // Fungsi untuk memperbarui panel sesuai naskah teks
     function generateComic() {
       const text = document.getElementById('novelText').value;
       const container = document.getElementById('comicContainer');
@@ -292,7 +338,6 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
         return;
       }
 
-      // Memecah paragraf naskah menjadi bagian-bagian panel
       const paragraphs = text.split('\n').filter(p => p.trim() !== '');
       container.innerHTML = ''; // Clear panel lama
 
@@ -301,21 +346,44 @@ Tiba-tiba, mata merah menyala muncul dari balik kegelapan semak-semak. Seekor se
       paragraphs.forEach((para, index) => {
         const isDialogue = para.includes('"');
         const bgClass = bgClasses[index % bgClasses.length];
+        const panelId = `img-panel-${index + 1}`;
+        const fileId = `file-${index + 1}`;
 
         const panel = document.createElement('div');
         panel.className = 'comic-panel';
         
-        // Buat susunan layout komik interaktif
+        // Buat susunan layout komik dengan elemen <img>
         panel.innerHTML = `
-          <div class="panel-image-placeholder ${bgClass}"></div>
+          <div class="bg-fallback ${bgClass}"></div>
+          <img src="img/panel${index + 1}.png" alt="Panel ${index + 1}" class="panel-image" id="${panelId}" onerror="this.style.display='none'">
+          
           ${isDialogue 
             ? `<div class="speech-bubble">${para}</div>` 
             : `<div class="comic-caption">${para}</div>`}
+          
           <span class="panel-number">PANEL ${index + 1}</span>
+          
+          <button class="upload-btn" onclick="document.getElementById('${fileId}').click()">📷 Ganti Gambar</button>
+          <input type="file" id="${fileId}" accept="image/*" style="display:none" onchange="previewImage(event, '${panelId}')">
         `;
 
         container.appendChild(panel);
       });
+    }
+
+    // Fungsi JS untuk langsung menampilkan gambar yang di-upload dari komputer
+    function previewImage(event, imgElementId) {
+      const imgElement = document.getElementById(imgElementId);
+      const file = event.target.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imgElement.src = e.target.result;
+          imgElement.style.display = 'block'; // Tampilkan gambar setelah diunggah
+        }
+        reader.readAsDataURL(file);
+      }
     }
   </script>
 </body>
